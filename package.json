@@ -1,0 +1,14 @@
+{
+    "name": "raphql-todos",
+    "version": "1.0.0",
+    "description": "Todos with GraphQL",
+    "main": "index.js",
+    "repository": "git@github.com:ssh0le/graphQl-todos.git",
+    "author": "Bo <omuqqz@gmail.com>",
+    "license": "MIT",
+    "private": "true",
+    "workspaces": [
+        "server",
+        "client"
+    ]
+}
