@@ -1,20 +1,20 @@
 {
-    "env": { "browser": true, "es2020": true },
-    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
-    "ignorePatterns": ["dist", ".eslintrc.cjs"],
-    "parser": "@typescript-eslint/parser",
-    "plugins": ["simple-import-sort", "prettier"],
-    "rules": {
-        "simple-import-sort/imports": [
-            "error",
-            {
-                "groups": [
-                    ["^@?\\w"],
-                    ["@/styles/\\w*.css$"],
-                    ["^\\.\\.(?!/?$)", "^\\.\\./?$", "@/", "@UI"],
-                    ["^\\u0000", "^\\./\\w"]
-                ]
-            }
+  "env": { "browser": true, "es2020": true },
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "ignorePatterns": ["dist", ".eslintrc.cjs"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["simple-import-sort", "prettier"],
+  "rules": {
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^@?\\w"],
+          ["@/styles/\\w*.css$"],
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$", "@/", "@UI"],
+          ["^\\u0000", "^\\./\\w"]
         ]
-    }
+      }
+    ]
+  }
 }
