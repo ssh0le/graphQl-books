@@ -1,14 +1,19 @@
 {
-    "name": "raphql-todos",
+    "name": "raphql-books",
     "version": "1.0.0",
-    "description": "Todos with GraphQL",
+    "description": "Books with GraphQL",
     "main": "index.js",
-    "repository": "git@github.com:ssh0le/graphQl-todos.git",
+    "repository": "git@github.com:ssh0le/graphQl-books.git",
     "author": "Bo <omuqqz@gmail.com>",
     "license": "MIT",
     "private": "true",
-    "workspaces": [
-        "server",
-        "client"
-    ]
+    "worksapces": {
+        "packages": [
+            "books-server",
+            "books-client"
+        ],
+        "nohoist": [
+            "husky"
+        ]
+    }
 }
