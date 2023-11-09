@@ -7,6 +7,10 @@
     "author": "Bo <omuqqz@gmail.com>",
     "license": "MIT",
     "private": "true",
+    "scripts": {
+        "start": "cd ./server && yarn start && cd ../client && yarn dev",
+        "format:client": "cd ./client && npx eslint . --fix && npx prettier . --write"
+    },
     "worksapces": {
         "packages": [
             "books-server",
