@@ -18,6 +18,26 @@ export const getBooks = gql`
   }
 `;
 
+export const getBook = gql`
+  query GetBook($id: ID!) {
+    book(id: $id) {
+      id
+      title
+      pageAmount
+    }
+  }
+`;
+
+export const updateBook = gql`
+  mutation UpdateBook($details: BookUpdateDetails) {
+    updateBook(details: $details) {
+      id
+      title
+      pageAmount
+    }
+  }
+`;
+
 export const addNewBookWithExistingAuthor = gql`
   mutation AddBook($details: BookDetailsWithExistingAuthor!) {
     addBookWithExistingAuthor(details: $details) {
@@ -36,18 +56,18 @@ export const addNewBookWithNewAuthor = gql`
   }
 `;
 
-export const getAuthors = gql`
-  query GetAuthors {
-    authors {
-      name
+export const deleteBook = gql`
+  mutation DeleteBook($id: ID!) {
+    deleteBook(id: $id) {
       id
     }
   }
 `;
 
-export const deleteBook = gql`
-  mutation DeleteBook($id: ID!) {
-    deleteBook(id: $id) {
+export const getAuthors = gql`
+  query GetAuthors {
+    authors {
+      name
       id
     }
   }

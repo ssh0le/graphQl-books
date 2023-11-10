@@ -19,7 +19,12 @@ const BookCard = (props: BookCardProps) => {
     pageAmount,
     author: { name },
     onDelete,
+    onEditClick,
   } = props;
+
+  const handleEditClick = () => {
+    onEditClick(id);
+  };
 
   const handleBadgeClick = () => {
     onDelete(id);
@@ -30,9 +35,8 @@ const BookCard = (props: BookCardProps) => {
       <BookTitle>{title}</BookTitle>
       <BookAuthor>{name}</BookAuthor>
       <p>Page amount: {pageAmount}</p>
-
       <ControlsContainer>
-        <ControlItem title="Edit">
+        <ControlItem title="Edit" onClick={handleEditClick}>
           <IconContainer>
             <img src={images.edit} alt="Edit" />
           </IconContainer>

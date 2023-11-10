@@ -7,3 +7,7 @@ export interface BooksResponse {
 export interface AuthorsResponse {
   authors: Author[];
 }
+
+export interface BookResponse {
+  book: Book;
+}

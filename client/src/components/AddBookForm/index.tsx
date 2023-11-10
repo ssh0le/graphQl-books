@@ -10,7 +10,7 @@ import {
   getAuthors,
   newBookWithExistingAuthorSchema,
 } from '@/constants';
-import { addNewBookWithExistingAuthorForm } from '@/constants/staticText';
+import { bookMainFormProperties } from '@/constants/staticText';
 import { extractFields } from '@/helpers';
 import { useForm } from '@/hooks/useForm';
 import { AuthorsResponse, NewBookWithExsitingAuthor } from '@/interfaces';
@@ -73,9 +73,7 @@ const AddBookForm = ({ onAfterBookAdd }: AddBookFormProps) => {
   };
 
   const handleFieldChange = (
-    event: ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
     dispatch({ name, value });
@@ -88,7 +86,7 @@ const AddBookForm = ({ onAfterBookAdd }: AddBookFormProps) => {
 
   return (
     <FormWrapper onSubmit={handleFormSubmit}>
-      {addNewBookWithExistingAuthorForm.map(({ name, type, heading }) => (
+      {bookMainFormProperties.map(({ name, type, heading }) => (
         <InputField
           type={type}
           label={heading}

@@ -15,10 +15,14 @@ const createReducer = <T extends { [key: string]: unknown }>(
         ...state,
         [name]: value,
       };
-    } else if (action.name === 'resetField' && value) {
+    } else if (name === 'resetField' && value) {
       return {
         ...state,
-        [value]: initialState[value],
+        [value as string]: initialState[value as string],
+      };
+    } else if (name === 'updateState') {
+      return {
+        ...(value as T),
       };
     } else if (name === 'reset') {
       return initialState;

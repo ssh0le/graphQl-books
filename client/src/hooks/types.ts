@@ -17,4 +17,13 @@ export interface ResetFieldAction<T> {
   value: keyof T;
 }
 
-export type FormAction<T> = ChangeAction<T> | ResetAction | ResetFieldAction<T>;
+export interface UpdateStateAction<T> {
+  name: 'updateState';
+  value: T;
+}
+
+export type FormAction<T> =
+  | ChangeAction<T>
+  | ResetAction
+  | ResetFieldAction<T>
+  | UpdateStateAction<T>;
