@@ -1,5 +1,5 @@
-export const extractFields = <T>(object: T, fields: (keyof T)[]) => {
-  const result = {} as T;
+export const extractFields = <T, K extends keyof T>(object: T, fields: K[]) => {
+  const result = {} as Pick<T, K>;
   fields.forEach((field) => {
     result[field] = object[field];
   });
