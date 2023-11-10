@@ -1,2 +1,2 @@
-# graphQl-todos
-todos with graphQl
+# graphQl-books
+books with graphQl
