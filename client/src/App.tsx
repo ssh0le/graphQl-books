@@ -4,7 +4,7 @@ import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import AddBookForm from '@/components/AddBookForm';
 import BookList from '@/components/BookList';
 import Header from '@/components/Header';
-import { getCountries } from '@/constants';
+import { getBooks } from '@/constants';
 
 import { BooksResponse } from './interfaces/apollo';
 import { AppWrapper, FormWrapper } from './styled';
@@ -13,21 +13,25 @@ loadDevMessages();
 loadErrorMessages();
 
 function App() {
-  const { loading, data, refetch } = useQuery<BooksResponse>(getCountries);
+  const { loading, data, refetch } = useQuery<BooksResponse>(getBooks);
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
-  const handleFormAfterAdd = () => refetch();
+  const refetchBooks = () => refetch();
 
   return (
     <AppWrapper>
       <Header />
       <FormWrapper>
-        <AddBookForm onAfterBookAdd={handleFormAfterAdd} />
+        <AddBookForm onAfterBookAdd={refetchBooks} />
       </FormWrapper>
-      {data ? <BookList books={data?.books} /> : <p>No books</p>}
+      {data ? (
+        <BookList onAfterDelete={refetchBooks} books={data?.books} />
+      ) : (
+        <p>No books</p>
+      )}
     </AppWrapper>
   );
 }

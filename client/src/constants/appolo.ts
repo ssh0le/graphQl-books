@@ -5,7 +5,7 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export const getCountries = gql`
+export const getBooks = gql`
   query GetBooks {
     books {
       id
@@ -40,6 +40,14 @@ export const getAuthors = gql`
   query GetAuthors {
     authors {
       name
+      id
+    }
+  }
+`;
+
+export const deleteBook = gql`
+  mutation DeleteBook($id: ID!) {
+    deleteBook(id: $id) {
       id
     }
   }
