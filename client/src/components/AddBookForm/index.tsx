@@ -1,17 +1,21 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
+import InputField from '../UI/InputField';
+import RadioButton from '../UI/RadioButton';
+import SelectAuthor from '../UI/SelectAuthor';
 import {
   addNewBookWithExistingAuthor,
   addNewBookWithNewAuthor,
+  getAuthors,
   newBookWithExistingAuthorSchema,
 } from '@/constants';
 import { addNewBookWithExistingAuthorForm } from '@/constants/staticText';
 import { extractFields } from '@/helpers';
 import { useForm } from '@/hooks/useForm';
-import { NewBookWithExsitingAuthor } from '@/interfaces';
+import { AuthorsResponse, NewBookWithExsitingAuthor } from '@/interfaces';
 
-import { FormWrapper } from './styled';
+import { FormWrapper, RadioButtonsWrapper, SubmitButton } from './styled';
 import { AddBookFormProps, AuthorType } from './types';
 
 const initialState = {
@@ -20,8 +24,8 @@ const initialState = {
   author: '',
 };
 
-const AddBookForm = ({ onAdd }: AddBookFormProps) => {
-  const [authorType, setAuthorType] = useState<AuthorType>('existing');
+const AddBookForm = ({ onAfterBookAdd }: AddBookFormProps) => {
+  const [authorType, setAuthorType] = useState<AuthorType>('new');
   const { dispatch, formParams, handleSubmit } =
     useForm<NewBookWithExsitingAuthor>(
       initialState,
@@ -32,7 +36,10 @@ const AddBookForm = ({ onAdd }: AddBookFormProps) => {
 
   const [addBookWithNewAuthor] = useMutation(addNewBookWithNewAuthor);
 
-  const isNewAuthor = authorType === 'existing';
+  const { data, refetch: refetchAuthors } =
+    useQuery<AuthorsResponse>(getAuthors);
+
+  const isNewAuthor = authorType === 'new';
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -48,6 +55,7 @@ const AddBookForm = ({ onAdd }: AddBookFormProps) => {
             },
           },
         });
+        refetchAuthors();
       } else {
         addBookWithExistingAuthor({
           variables: {
@@ -59,12 +67,15 @@ const AddBookForm = ({ onAdd }: AddBookFormProps) => {
           },
         });
       }
-      onAdd();
+      onAfterBookAdd();
+      dispatch({ name: 'reset' });
     });
   };
 
   const handleFieldChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = event.target;
     dispatch({ name, value });
@@ -72,56 +83,58 @@ const AddBookForm = ({ onAdd }: AddBookFormProps) => {
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAuthorType(event.target.value as AuthorType);
+    dispatch({ name: 'resetField', value: 'author' });
   };
 
   return (
     <FormWrapper onSubmit={handleFormSubmit}>
       {addNewBookWithExistingAuthorForm.map(({ name, type, heading }) => (
-        <label htmlFor={name} key={name}>
-          {heading}
-          <input
-            type={type}
-            id={name}
-            name={name}
-            value={formParams[name]}
-            onChange={handleFieldChange}
-          />
-        </label>
+        <InputField
+          type={type}
+          label={heading}
+          id={name}
+          key={name}
+          name={name}
+          value={formParams[name]}
+          onChange={handleFieldChange}
+        />
       ))}
-      <div onChange={handleRadioChange}>
-        <label htmlFor="not-exists">
-          New author
-          <input
-            type="radio"
-            name="authorType"
-            id="not-exists"
-            value={'new'}
-            defaultChecked={isNewAuthor}
-          />
-        </label>
+      <RadioButtonsWrapper onChange={handleRadioChange}>
+        <RadioButton
+          name="authorType"
+          id="not-exists"
+          value={'new'}
+          label={'New author'}
+          defaultChecked={isNewAuthor}
+        />
+        <RadioButton
+          label={'Existing author'}
+          name="authorType"
+          id="exists"
+          value={'existing'}
+          defaultChecked={!isNewAuthor}
+        />
+      </RadioButtonsWrapper>
 
-        <label htmlFor="exists">
-          Exists
-          <input
-            type="radio"
-            name="authorType"
-            id="exists"
-            value={'existing'}
-          />
-        </label>
-      </div>
-
-      <label htmlFor={'author'}>
-        Author {isNewAuthor ? 'name' : 'id'}
-        <input
+      {isNewAuthor ? (
+        <InputField
           type="text"
+          label={'Author name'}
           id={'author'}
           name={'author'}
           value={formParams['author']}
           onChange={handleFieldChange}
         />
-      </label>
-      <button type="submit">Add book</button>
+      ) : (
+        <SelectAuthor
+          label={'Author name'}
+          authors={data?.authors}
+          name={'author'}
+          value={formParams['author']}
+          onChange={handleFieldChange}
+        />
+      )}
+      <SubmitButton type="submit">Add book</SubmitButton>
     </FormWrapper>
   );
 };

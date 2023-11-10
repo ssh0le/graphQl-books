@@ -7,7 +7,7 @@ import Header from '@/components/Header';
 import { getCountries } from '@/constants';
 
 import { BooksResponse } from './interfaces/apollo';
-import { AppWrapper } from './styled';
+import { AppWrapper, FormWrapper } from './styled';
 
 loadDevMessages();
 loadErrorMessages();
@@ -19,12 +19,14 @@ function App() {
     return <p>Loading...</p>;
   }
 
-  const handleFormAdd = () => refetch();
+  const handleFormAfterAdd = () => refetch();
 
   return (
     <AppWrapper>
       <Header />
-      <AddBookForm onAdd={handleFormAdd} />
+      <FormWrapper>
+        <AddBookForm onAfterBookAdd={handleFormAfterAdd} />
+      </FormWrapper>
       {data ? <BookList books={data?.books} /> : <p>No books</p>}
     </AppWrapper>
   );

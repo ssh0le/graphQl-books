@@ -35,3 +35,12 @@ export const addNewBookWithNewAuthor = gql`
     }
   }
 `;
+
+export const getAuthors = gql`
+  query GetAuthors {
+    authors {
+      name
+      id
+    }
+  }
+`;

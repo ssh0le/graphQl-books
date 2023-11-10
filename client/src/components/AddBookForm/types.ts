@@ -1,5 +1,5 @@
 export interface AddBookFormProps {
-  onAdd: () => void;
+  onAfterBookAdd: () => void;
 }
 
 export type AuthorType = 'new' | 'existing';

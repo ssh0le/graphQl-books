@@ -6,3 +6,8 @@ export interface Book {
     name: string;
   };
 }
+
+export interface Author {
+  id: string;
+  name: string;
+}
